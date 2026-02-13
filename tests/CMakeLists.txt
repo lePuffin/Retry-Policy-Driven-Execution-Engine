@@ -16,31 +16,20 @@ if(NOT DEFINED ENV{CPPUTEST_HOME})
 endif()
 
 set(CPPUTEST_HOME $ENV{CPPUTEST_HOME})
-    # Include directories
-    set(INCLUDE_DIRS
-    ${CPPUTEST_HOME}/include
-    ${CPPUTEST_HOME}/include/Platforms/Gcc
-    # ${PROJECT_SOURCE_DIR}/example-include
-    # ${PROJECT_SOURCE_DIR}/example-fff
-    # ${PROJECT_SOURCE_DIR}/tests/exploding-fakes
-    # ${PROJECT_SOURCE_DIR}/tests/fff
-)
+
 
 # Gather all source files from the tests directory
-file(GLOB TEST_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-)
-
-# Include directories
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/src
-    ${CPPUTEST_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../src
-)
+file(GLOB TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 # Create an executable for tests
 add_executable(${PROJECT_NAME} ${TEST_SOURCES})
+
+# Include directories
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}        # tests dir
+    ${CMAKE_SOURCE_DIR}/src            # main project headers
+    ${CPPUTEST_HOME}/include           # CppUTest headers
+)
 
 # Enable exception handling during compilation
 target_compile_options(${PROJECT_NAME} PRIVATE -fexceptions)
@@ -49,14 +38,15 @@ target_compile_options(${PROJECT_NAME} PRIVATE -fexceptions)
 target_link_libraries(${PROJECT_NAME} PRIVATE source_library)
 
 # Link the CppUTest library to the tests executable
-target_include_directories(${PROJECT_NAME} PUBLIC ${CPPUTEST_HOME}/include)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CPPUTEST_HOME}/lib/libCppUTest.a)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CPPUTEST_HOME}/lib/libCppUTestExt.a)
+# target_include_directories(${PROJECT_NAME} PUBLIC ${CPPUTEST_HOME}/include)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${CPPUTEST_HOME}/build/src/CppUTest/libCppUTest.a
+    ${CPPUTEST_HOME}/build/src/CppUTestExt/libCppUTestExt.a
+)
 
 # Link the platform threads library (pthread) so CppUTest platform code links correctly
 find_package(Threads REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
 
 # Link with C++ standard library explicitly
-target_link_libraries(${PROJECT_NAME} PRIVATE stdc++)
-
+# target_link_libraries(${PROJECT_NAME} PRIVATE stdc++)

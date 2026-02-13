@@ -1,0 +1,17 @@
+@startuml
+title Failure With Retry
+
+participant StateMachine
+participant RetryController
+participant RetryPolicy
+
+StateMachine -> RetryController : Evaluate(result, context)
+RetryController -> RetryPolicy : ShouldRetry(context)
+
+RetryPolicy --> RetryController : true
+RetryController --> StateMachine : RetryDecision(RETRY)
+
+StateMachine -> StateMachine : TransitionTo(Retrying)
+StateMachine -> StateMachine : Retry()
+
+@enduml

@@ -1,0 +1,49 @@
+@startuml
+title Repo3 - Core Classes
+
+interface RetryPolicy {
+    +ShouldRetry(context)
+}
+
+class FixedRetryPolicy {
+    -max_retries
+    +ShouldRetry(context)
+}
+
+class RetryController {
+    +Evaluate(result, context)
+}
+
+class RetryDecision {
+    +type
+}
+
+class StateMachine {
+    -current_state
+    +Start()
+    +OnFailure()
+    +OnSuccess()
+}
+
+enum ExecutionState {
+    Idle
+    Running
+    Retrying
+    Completed
+    Failed
+}
+
+class ExecutionResult {
+    +success
+    +error_code
+}
+
+RetryPolicy <|-- FixedRetryPolicy
+RetryController --> RetryPolicy
+RetryController --> RetryDecision
+
+StateMachine --> RetryController
+StateMachine --> ExecutionState
+StateMachine --> ExecutionResult
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+title Retry Decision Flow
+
+start
+
+:Execution Fails;
+
+:Build RetryContext;
+:RetryController.Evaluate();
+
+if (Retry Allowed?) then (yes)
+    :Return RetryDecision(RETRY);
+else (no)
+    :Return RetryDecision(STOP);
+endif
+
+stop
+@enduml

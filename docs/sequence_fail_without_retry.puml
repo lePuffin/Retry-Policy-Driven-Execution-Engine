@@ -1,0 +1,16 @@
+@startuml
+title Failure Without Retry
+
+participant StateMachine
+participant RetryController
+participant RetryPolicy
+
+StateMachine -> RetryController : Evaluate(result, context)
+RetryController -> RetryPolicy : ShouldRetry(context)
+
+RetryPolicy --> RetryController : false
+RetryController --> StateMachine : RetryDecision(STOP)
+
+StateMachine -> StateMachine : TransitionTo(Failed)
+
+@enduml

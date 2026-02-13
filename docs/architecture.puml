@@ -1,0 +1,32 @@
+@startuml
+title Repo3 - Policy Driven Retry Engine
+
+package "Application" {
+    [main.cpp]
+}
+
+package "Policy Layer" {
+    [RetryPolicy]
+    [FixedRetryPolicy]
+    [RetryController]
+    [RetryDecision]
+}
+
+package "State Layer" {
+    [StateMachine]
+    [ExecutionState]
+}
+
+package "Execution Layer" {
+    [ExecutionResult]
+}
+
+main.cpp --> StateMachine
+StateMachine --> RetryController
+RetryController --> RetryPolicy
+RetryPolicy <|-- FixedRetryPolicy
+
+StateMachine --> ExecutionResult
+RetryController --> RetryDecision
+
+@enduml

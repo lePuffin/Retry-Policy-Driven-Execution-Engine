@@ -1,0 +1,7 @@
+repos:
+  - repo: https://github.com/cpplint/cpplint
+    rev: 1.6.1   # Use a pinned version
+    hooks:
+      - id: cpplint
+        args: [--filter=-legal/copyright] # Disable copyright checks
+        files: \.(cpp|cc|cxx|h|hpp)$

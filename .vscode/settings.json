@@ -15,4 +15,10 @@
     "cpputestTestAdapter.testLocationFetchMode": "disabled",
     "editor.tabCompletion": "on",
     "cmake.ctest.testExplorerIntegrationEnabled": false,
+    "cpp-check-lint.cppcheck.--enable": true,
+    "cpp-check-lint.cppcheck.--executable": "cppcheck",
+    "cpp-check-lint.cppcheck.--onsave": true,
+    "cpp-check-lint.cpplint.--enable": true,
+    "cpp-check-lint.cpplint.--executable": "cpplint",
+    "cpp-check-lint.cpplint.--onsave": true
 }

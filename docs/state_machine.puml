@@ -1,0 +1,18 @@
+@startuml
+title Execution State Machine
+
+[*] --> Idle
+
+Idle --> Running : Start()
+Running --> EvaluatingRetry : Failure
+
+EvaluatingRetry --> Retrying : ShouldRetry == true
+EvaluatingRetry --> Failed : ShouldRetry == false
+
+Retrying --> Running : Retry()
+Running --> Completed : Success
+
+Completed --> [*]
+Failed --> [*]
+
+@enduml

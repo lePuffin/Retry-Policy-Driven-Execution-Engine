@@ -24,7 +24,7 @@
  *          during compilation and returns the overall test result status.
  */
 int main(int argc, const char** argv) {
-    return CommandLineTestRunner::RunAllTests(argc, argv);
+  return CommandLineTestRunner::RunAllTests(argc, argv);
 }
 
 // Private
